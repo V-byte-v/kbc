@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="/profile.html">Profile</a></li>
+            <li><a href="#">Upload Video</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <h1>Welcome Home</h1>
+        <div id="videoList"></div>
+    </div>
+    <script>
+        async function loadVideos() {
+            const response = await fetch("/videos");
+            const videos = await response.json();
+            const videoList = document.getElementById("videoList");
+            videos.forEach(video => {
+                const videoElement = document.createElement("div");
+                videoElement.textContent = video.name;
+                videoList.appendChild(videoElement);
+            });
+        }
+        loadVideos();
+    </script>
+</body>
+</html>

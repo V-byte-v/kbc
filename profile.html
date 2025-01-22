@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Your Profile</h1>
+        <form id="uploadForm">
+            <label for="video">Upload Video:</label>
+            <input type="file" id="video" name="video" accept="video/*" required>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="uploadStatus"></div>
+    </div>
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            formData.append("video", document.getElementById("video").files[0]);
+
+            const response = await fetch("/upload", {
+                method: "POST",
+                body: formData
+            });
+            const result = await response.json();
+            if (result.success) {
+                document.getElementById("uploadStatus").textContent = "Video uploaded successfully!";
+            } else {
+                document.getElementById("uploadStatus").textContent = "Upload failed: " + result.message;
+            }
+        });
+    </script>
+</body>
+</html>
